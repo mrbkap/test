@@ -1,62 +1,78 @@
+#include <cstdio>
+#include <cctype>
 #include <iostream>
-#include <set>
-#include <iterator>
-#include <string>
+#include <fstream>
+#include <cassert>
 using namespace std;
 
 void
-parse(int cur, set<int> &s)
+c_stdio(const char *fname)
 {
-    char ch;
-    cin >> ch;
-    if (ch != '(')
-        throw string("malformed input: ") + ch;
+    FILE *f, *out;
+    int i;
+    int numnodes, numedges;
+    int edge1, edge2;
+    int c;
 
-    while (isspace(cin.peek()))
-        cin.get();
-
-    // Empty?
-    if (cin.peek() == ')') {
-        cin.get();
-        s.insert(cur);
+    f = fopen(fname, "r");
+    out = fopen("c_out", "w");
+    if (!f || !out) {
+        printf("Unable to open %s\n", f ? "c_out" : fname);
         return;
     }
 
-    int n;
-    cin >> n;
+    i = 0;
+    while (fgetc(f) == 'g') {
+        fscanf(f, "%d %d", &numnodes, &numedges);
+        fprintf(out, "Graph %d has %d nodes and %d edges\n", i++, numnodes, numedges);
 
-    // No, parse the kids.
-    parse(cur + n, s);
-    parse(cur + n, s);
+        while (numedges--) {
+            fscanf(f, "%d %d", &edge1, &edge2);
+            fprintf(out, "Read edge (%d, %d)\n", edge1, edge2);
+        }
 
-    // Collect our close paren.
-    cin >> ch;
+        while (isspace(c = fgetc(f)))
+            continue;
+        if (c != EOF)
+            ungetc(c, f);
+    }
+
+    fclose(f);
 }
 
 void
-process()
+cpp_streams(const char *fname)
 {
-    int find;
-    if (!(cin >> find))
-        return;
+    ifstream f(fname);
+    ofstream out("cpp_streams");
 
-    set<int> s;
-    parse(0, s);
+    char ch;
+    int i = 0;
+    while (f >> ch) {
+        assert(ch == 'g');
 
-    if (s.find(find) != s.end())
-        cout << "yes\n";
-    else
-        cout << "no\n";
+        int numnodes, numedges;
+        f >> numnodes >> numedges;
+
+        out << "Graph " << i++ << " has " << numnodes << " nodes and " << numedges << " edges\n";
+        while (numedges--) {
+            int edge1, edge2;
+            f >> edge1 >> edge2;
+            out << "Read edge (" << edge1 << ", " << edge2 << ")\n";
+        }
+    }
 }
 
 int
-main()
+main(int argc, const char *argv[])
 {
-    try {
-        while (cin)
-            process();
-    } catch (const string &s) {
-        cout << "Error: " << s << '\n';
+    if (argc != 2) {
+        printf("Usage: %s <file>\n", argv[0]);
+        return 1;
     }
+
+    c_stdio(argv[1]);
+    cpp_streams(argv[1]);
+
     return 0;
 }
