@@ -1,15 +1,14 @@
-#include <cctype>
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 int
 main(int argc, const char *argv[])
 {
-    int i = EOF;
+    ostringstream os;
 
-    cout << "Answer: " << boolalpha << static_cast<bool>(isspace(i)) << '\n';
+    os << "HI THERE";
 
-    i = ' ';
-    cout << "Answer: " << boolalpha << static_cast<bool>(isspace(i)) << '\n';
+    const char *str = os.str().c_str();
     return 0;
 }
