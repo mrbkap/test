@@ -1,14 +1,19 @@
 #include <iostream>
-#include <sstream>
+#include <set>
 using namespace std;
 
 int
 main(int argc, const char *argv[])
 {
-    ostringstream os;
+    set<int> s;
 
-    os << "HI THERE";
+    s.insert(4);
+    s.insert(5);
+    s.insert(2);
+    s.insert(1);
+    s.insert(9);
 
-    const char *str = os.str().c_str();
+    for (set<int>::const_iterator i = s.begin(); i != s.end(); ++i)
+        cout << *i << "\n";
     return 0;
 }
