@@ -2,7 +2,7 @@ all: usethis
 
 usethis: usethis.cpp
 
-assembly: usethis.cpp
+asm: usethis.cpp
 	g++ -S $(CFLAGS) usethis.cpp
 
 clean:

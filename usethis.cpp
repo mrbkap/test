@@ -1,17 +1,13 @@
-#include <string.h>
-#include <assert.h>
-#include <stdlib.h>
+#include <stdio.h>
 #include <stdint.h>
 
 int
 main()
 {
-    uint32_t size1 = 0xffffffff;
-    const uint16_t size2 = size1;
+    int32_t new_size = 0;
 
-    void *ptr = malloc(size2);
-    assert(ptr);
-    memset(ptr, 0, size1);
-    free(ptr);
+    new_size = 0xff;
+
+    printf("0x%08x\n", new_size);
     return 0;
 }
