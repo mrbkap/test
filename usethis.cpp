@@ -1,7 +1,17 @@
-#include <iostream>
+#include <string.h>
+#include <assert.h>
+#include <stdlib.h>
+#include <stdint.h>
+
 int
-main(int argc, const char *argv[])
+main()
 {
-    std::cout << static_cast<int>('x' + 'k' + 'c' + 'd') - (4 * 'a' - 4) << '\n';
+    uint32_t size1 = 0xffffffff;
+    const uint16_t size2 = size1;
+
+    void *ptr = malloc(size2);
+    assert(ptr);
+    memset(ptr, 0, size1);
+    free(ptr);
     return 0;
 }
