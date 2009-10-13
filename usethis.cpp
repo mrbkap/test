@@ -4,6 +4,14 @@
 #include <sstream>
 using namespace std;
 
+namespace {
+    void expected(int ch, int expected);
+    size_t col = 0;
+    char next();
+}
+
+namespace {
+
 void
 expected(int ch, int expected)
 {
@@ -13,8 +21,6 @@ expected(int ch, int expected)
         throw os.str();
     }
 }
-
-size_t col = 0;
 
 char
 next()
@@ -27,6 +33,8 @@ next()
 
     ++col;
     return ch;
+}
+
 }
 
 int
