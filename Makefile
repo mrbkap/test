@@ -2,7 +2,7 @@ CXXFLAGS=-Wall -ansi -pedantic
 
 all: usethis
 
-usethis: usethis.cpp other.cpp
+usethis: usethis.cpp
 
 asm: usethis.cpp
 	g++ -S $(CXXFLAGS) usethis.cpp
