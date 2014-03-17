@@ -1,25 +1,37 @@
-#include <iostream>
-#include <inttypes.h>
-using namespace std;
+template <class T>
+class H
+{
+public:
+    H(T* t) : mT(t) {}
+    ~H() { delete mT; }
 
-template <int N>
-struct Fib {
-    enum { result = Fib<N - 1>::result + Fib<N - 2>::result };
+private:
+    T* mT;
 };
 
-template<>
-struct Fib<1> {
-    enum { result = 1 };
+class A
+{
+    friend class H<A>;
+private:
+    virtual ~A();
 };
 
-template<>
-struct Fib<0> {
-    enum { result = 0 };
+A::~A()
+{
+}
+
+class B : public A
+{
+    virtual ~B();
 };
+
+B::~B()
+{
+}
 
 int
 main()
 {
-    cout << Fib<5>::result << '\n';
+    H<A> b(new B);
     return 0;
 }
