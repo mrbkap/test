@@ -1,4 +1,4 @@
-CXXFLAGS=-Wall -ansi -pedantic
+CXXFLAGS=-Wall -pedantic -std=c++11 -O3
 
 all: usethis
 

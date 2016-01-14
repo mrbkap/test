@@ -1,37 +1,34 @@
-template <class T>
-class H
+#include <iostream>
+using namespace std;
+
+template <class B>
+class C : public B
 {
 public:
-    H(T* t) : mT(t) {}
-    ~H() { delete mT; }
+    C() : mN(N++) { cout << "C(" << mN << ")\n"; }
+    ~C() { cout << "~C(" << mN << ")\n"; }
+    C(const C& c) : mN(N++) { cout << "C(const C& " << c.mN << ") = " << mN << "\n"; }
+    C(C&& c) : mN(N++) { cout << "C(C&& " << c.mN << ") = " << mN << "\n"; }
+
+    C& operator =(C&& c) {
+        cout << "C::operator = (C&& " << c.mN << ") = " << mN << "\n";
+        return *this;
+    }
 
 private:
-    T* mT;
+    int32_t mN;
+    static int32_t N;
 };
 
-class A
-{
-    friend class H<A>;
-private:
-    virtual ~A();
-};
+template<class B>
+int32_t
+C<B>::N = 0;
 
-A::~A()
-{
-}
-
-class B : public A
-{
-    virtual ~B();
-};
-
-B::~B()
-{
-}
+class O {};
 
 int
-main()
+main(int argc, char *argv[])
 {
-    H<A> b(new B);
+    C<O> c;
     return 0;
 }
